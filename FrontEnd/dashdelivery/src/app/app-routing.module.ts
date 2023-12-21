@@ -1,13 +1,13 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CardapioComponent } from './components/pages/cardapio/cardapio.component';
-import { AdminComponent } from './components/pages/admin/admin.component';
+import { CardapioComponent } from './pages/cardapio/cardapio.component';
+import { AdminComponent } from './pages/admin/admin.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { FuncionariosComponent } from './components/funcionarios/funcionarios.component';
 import { EntregadorComponent } from './components/entregador/entregador.component';
 import { AdminInterceptor } from './admin.interceptor';
-import { AuthComponent } from './components/pages/auth/auth.component';
+import { AuthComponent } from './pages/auth/auth.component';
 import { AuthGuard } from './services/auth-guard.service';
 
 

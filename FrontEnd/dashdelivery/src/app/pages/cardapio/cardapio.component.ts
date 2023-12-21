@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Produto } from '../../../models/Produtos';
-import { Pedido } from '../../../models/Pedido';
-import { ProdutoService } from '../../../services/produto.service';
-import { PedidoService } from './../../../services/pedido.service';
+import { ProdutoService } from '../../services/produto.service';
+import { Produto } from '../../models/Produtos';
+import { PedidoService } from '../../services/pedido.service';
+import { Pedido } from '../../models/Pedido';
 
 @Component({
   selector: 'app-cardapio',
