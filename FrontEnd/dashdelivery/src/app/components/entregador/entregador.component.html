@@ -1,0 +1,41 @@
+
+<div class="main-container">
+  <app-sidebar></app-sidebar>
+  <div class="main">
+  <form class="form-inline">
+    <input type="text" placeholder="Nome" name="nome" [(ngModel)]="entregador.nome" class="form-control">
+    <input type="text" placeholder="Cargo" name="cargo" [(ngModel)]="entregador.salario" class="form-control">
+    <input type="number" placeholder="Salario" name="salario" [(ngModel)]="entregador.status" class="form-control">
+
+    <input type="button" value="Cadastrar" *ngIf="btnCadastro" class="btn btn-primary btn-small" (click)="cadastrar()" >
+    <input type="button" value="Alterar" *ngIf="!btnCadastro" class="btn btn-warning btn-small" (click)="editar()" >
+    <input type="button" value="Remover" *ngIf="!btnCadastro" class="btn btn-danger btn-small" (click)="remover()" >
+    <input type="button" value="Cancelar" *ngIf="!btnCadastro" class="btn btn-secondary btn-small"  (click)="cancelar()">
+  </form>
+
+  <table class="spaced-table table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Status</th>
+        <th>Salario</th>
+        <th>Alterar</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let e of entregadores; index as i">
+      <th>{{i+1}}</th>
+      <th>{{e.nome}}</th>
+      <th>{{e.status}}</th>
+      <th>{{e.salario}}</th>
+      <th><button class="btn btn-success" (click)="selecionarEntregador(i)">Selecionar</button></th>
+
+    </tr>
+    </tbody>
+  </table>
+  </div>
+  </div>
+
+

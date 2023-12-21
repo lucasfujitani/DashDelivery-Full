@@ -1,0 +1,61 @@
+<div class="main-content">
+
+<h1>cardapio</h1>
+
+  <div class="modal" *ngIf="exibirModal">
+    <div class="modal-content">
+      <span class="close" (click)="fecharModal()">&times;</span>
+      <h2>Seu Pedido</h2>
+
+          <div class="form-group">
+      <label for="nomeCliente">Nome:</label>
+      <input type="text" id="nomeCliente" class="form-control" [(ngModel)]="nomeCliente">
+    </div>
+    <div class="form-group">
+      <label for="enderecoCliente">Endereço:</label>
+      <input type="text" id="enderecoCliente" class="form-control" [(ngModel)]="enderecoCliente">
+    </div>
+      <ul>
+        <li *ngFor="let produto of carrinho; let i = index">
+          {{ produto.produto }} - Preço por Unidade: {{ produto.preco | currency }} - Quantidade: {{ produto.quantidade }} - Subtotal: {{ produto.preco * produto.quantidade | currency }}
+          <button (click)="removerItem(i)" class="btn btn-danger btn-sm">Remover</button>
+        </li>
+
+      </ul>
+      <p>Total: {{ calcularTotal() | currency }}</p>
+      <button (click)="enviarPedido()">Enviar Pedido</button>
+      <button class="zap" (click)="enviarPedidoWhatsApp()">Enviar Pedido no Whatsapp</button>
+    </div>
+  </div>
+
+
+
+
+  <div class="row">
+    <div class="col-md-3 mb-4" *ngFor="let p of produtos">
+      <div class="card bg-dark text-white ml-2" style="width: 15rem;">
+        <img [src]="p.imagemUrl" class="card-img-top" alt="Imagem do Produto">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.produto }}</h5>
+          <p class="card-text">{{ p.descricao }}</p>
+          <p class="card-text">Preço: {{ p.preco }}</p>
+          <div class="quantidade">
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" id="quantidade" min="1" [(ngModel)]="p.quantidade">
+          </div>
+          <button (click)="adicionarAoPedido(p)" class="btn btn-secondary">Adicionar ao Pedido</button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+    <div class="fixed-footer">
+      <div class="total-pedido">
+        <span>Total: {{ calcularTotal() | currency }}</span>
+      </div>
+      <button (click)="abrirModal()" class="btn btn-info">Finalizar Pedido</button>
+    </div>
+  </div>
+
+

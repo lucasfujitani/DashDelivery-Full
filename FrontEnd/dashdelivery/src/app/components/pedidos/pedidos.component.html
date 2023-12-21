@@ -1,0 +1,39 @@
+
+<div class="main-container">
+  <app-sidebar></app-sidebar>
+  <div class="main">
+
+  <table class="spaced-table table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Cliente</th>
+        <th>Endereço</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Status</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of pedidos; index as i">
+      <th>{{i+1}}</th>
+      <th>{{p.nomeCliente}}</th>
+      <th>{{p.enderecoCliente}}</th>
+      <th>{{p.itens}}</th>
+      <th>{{p.total}}</th>
+      <th><select>
+        <option value="opcao1">Aguardando</option>
+        <option value="opcao2">Preparando</option>
+        <option value="opcao3">Saiu para Entrega</option>
+        <option value="opcao4">Finalizado</option>
+      </select>
+    </th>
+    </tbody>
+  </table>
+  </div>
+  </div>
+
+
+
