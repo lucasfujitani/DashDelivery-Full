@@ -22,8 +22,8 @@ h3{
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
-  z-index: 1000; /* Garante que o modal fique sobre outros elementos */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modal-content {
@@ -48,7 +48,7 @@ h3{
   cursor: pointer;
 }
 .modal {
-  display: block; /* Ou outra lógica para exibir o modal */
+  display: block;
 }
 
 .fixed-footer {
@@ -68,9 +68,9 @@ h3{
   align-items: center;
 }
 .main-content {
-  margin-bottom:100px;  /* Ajuste este valor conforme a altura do seu footer fixo */
+  margin-bottom:100px;
 }
-/* Estilo para o contêiner dos cards */
+
 .row {
   display: flex;
   justify-content: center;
@@ -78,7 +78,7 @@ h3{
 }
 
 .col-md-3 {
-  margin: 10px;  /* Adiciona um pouco de espaço entre os cards */
+  margin: 10px;
 }
 .zap{
   background-color: green;

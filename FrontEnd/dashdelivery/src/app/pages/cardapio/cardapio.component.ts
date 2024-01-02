@@ -38,7 +38,8 @@ export class CardapioComponent implements OnInit {
   }
 
   calcularTotal(): number {
-    return this.carrinho.reduce((total, produto) => total + (produto.preco * produto.quantidade), 0);
+    const total = this.carrinho.reduce((total, produto) => total + (produto.preco * produto.quantidade), 0);
+    return Number(total.toFixed(2));
   }
 
   abrirModal() {
@@ -78,7 +79,7 @@ export class CardapioComponent implements OnInit {
       itens: JSON.stringify(this.carrinho.map(produto => ({
         nomeProduto: produto.produto,
         quantidade: produto.quantidade,
-        preco: produto.preco
+        preco: produto.preco.toFixed(2)
       }))),
       total: this.calcularTotal(),
       status: 'Aguardando',

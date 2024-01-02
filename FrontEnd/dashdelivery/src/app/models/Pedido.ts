@@ -14,4 +14,6 @@ export interface ItemPedido {
   nomeProduto: string;
   quantidade: number;
   preco: number;
+
 }
+

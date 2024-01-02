@@ -67,6 +67,17 @@ export class PedidosComponent {
     }
   }
 
+
+  remover(idPedido: number): void {
+    this.service.remover(idPedido)
+      .subscribe(retorno => {
+        let posicao = this.pedidos.findIndex(obj => obj.id == idPedido);
+        if (posicao !== -1) {
+          this.pedidos.splice(posicao, 1);
+        }
+      });
+  }
+
   cancelar(): void {
 
     this.btnCadastro = true;

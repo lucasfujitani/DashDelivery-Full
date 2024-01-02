@@ -9,9 +9,10 @@
         <th>#</th>
         <th>Cliente</th>
         <th>Endereço</th>
-        <th>Items</th>
+        <th>Itens</th>
         <th>Total</th>
         <th>Status</th>
+        <th>Remover</th>
 
       </tr>
     </thead>
@@ -21,16 +22,18 @@
         <th>{{i+1}}</th>
         <th>{{p.nomeCliente}}</th>
         <th>{{p.enderecoCliente}}</th>
-        <th>{{p.itens}}</th>
+        <th>{{p.itens }}</th>
         <th>{{p.total | currency:'BRL':'symbol':'1.2-2' }}</th>
         <th>
-          <select (change)="atualizarStatusPedido(p.id, $event)">
+          <select [(ngModel)]="p.status" (change)="atualizarStatusPedido(p.id, $event)">
             <option value="Aguardando">Aguardando</option>
             <option value="Preparando">Preparando</option>
             <option value="Saiu para Entrega">Saiu para Entrega</option>
             <option value="Finalizado">Finalizado</option>
           </select>
         </th>
+        <th><input type="button" value="Remover" class="btn btn-danger btn-small" (click)="remover(p.id)"></th>
+
       </tr>
     </tbody>
   </table>
