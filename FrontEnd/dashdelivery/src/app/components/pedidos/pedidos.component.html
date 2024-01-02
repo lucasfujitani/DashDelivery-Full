@@ -18,18 +18,20 @@
 
     <tbody>
       <tr *ngFor="let p of pedidos; index as i">
-      <th>{{i+1}}</th>
-      <th>{{p.nomeCliente}}</th>
-      <th>{{p.enderecoCliente}}</th>
-      <th>{{p.itens}}</th>
-      <th>{{p.total}}</th>
-      <th><select>
-        <option value="opcao1">Aguardando</option>
-        <option value="opcao2">Preparando</option>
-        <option value="opcao3">Saiu para Entrega</option>
-        <option value="opcao4">Finalizado</option>
-      </select>
-    </th>
+        <th>{{i+1}}</th>
+        <th>{{p.nomeCliente}}</th>
+        <th>{{p.enderecoCliente}}</th>
+        <th>{{p.itens}}</th>
+        <th>{{p.total | currency:'BRL':'symbol':'1.2-2' }}</th>
+        <th>
+          <select (change)="atualizarStatusPedido(p.id, $event)">
+            <option value="Aguardando">Aguardando</option>
+            <option value="Preparando">Preparando</option>
+            <option value="Saiu para Entrega">Saiu para Entrega</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
+        </th>
+      </tr>
     </tbody>
   </table>
   </div>

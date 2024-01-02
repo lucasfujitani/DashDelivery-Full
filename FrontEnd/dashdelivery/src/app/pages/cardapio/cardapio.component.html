@@ -15,6 +15,14 @@
       <label for="enderecoCliente">Endereço:</label>
       <input type="text" id="enderecoCliente" class="form-control" [(ngModel)]="enderecoCliente">
     </div>
+    <div class="form-group">
+      <label for="formaDePagamento">Forma de Pagamento:</label>
+      <select id="formaDePagamento" class="form-control" [(ngModel)]="formaDePagamento">
+        <option value="credito">Crédito</option>
+        <option value="debito">Débito</option>
+        <option value="dinheiro">Dinheiro</option>
+      </select>
+    </div>
       <ul>
         <li *ngFor="let produto of carrinho; let i = index">
           {{ produto.produto }} - Preço por Unidade: {{ produto.preco | currency }} - Quantidade: {{ produto.quantidade }} - Subtotal: {{ produto.preco * produto.quantidade | currency }}
@@ -23,8 +31,8 @@
 
       </ul>
       <p>Total: {{ calcularTotal() | currency }}</p>
-      <button (click)="enviarPedido()">Enviar Pedido</button>
-      <button class="zap" (click)="enviarPedidoWhatsApp()">Enviar Pedido no Whatsapp</button>
+      <button (click)="enviarPedido()" [disabled]="!nomeCliente || !enderecoCliente || !formaDePagamento">Enviar Pedido</button>
+      <button class="zap" (click)="enviarPedidoWhatsApp()" [disabled]="!nomeCliente || !enderecoCliente || !formaDePagamento">Enviar Pedido no Whatsapp</button>
     </div>
   </div>
 
@@ -38,15 +46,15 @@
         <div class="card-body">
           <h5 class="card-title">{{ p.produto }}</h5>
           <p class="card-text">{{ p.descricao }}</p>
-          <p class="card-text">Preço: {{ p.preco }}</p>
-          <div class="quantidade">
-            <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" min="1" [(ngModel)]="p.quantidade">
+          <p class="card-text">Preço: {{ p.preco | currency:'BRL':'symbol':'1.2-2' }}</p>
+          <div class="quantidade d-flex align-items-center justify-content-center">
+            <button (click)="decrementarQuantidade(p)" class="btn btn-danger btn-sm mr-2">-</button>
+            <span class="mx-2">{{ p.quantidade }}</span>
+            <button (click)="incrementarQuantidade(p)" class="btn btn-success btn-sm ml-2">+</button>
           </div>
-          <button (click)="adicionarAoPedido(p)" class="btn btn-secondary">Adicionar ao Pedido</button>
-        </div>
-
-
+          <div class="text-center mt-2">
+            <button (click)="adicionarAoPedido(p)" class="btn btn-secondary">Adicionar ao Pedido</button>
+          </div>
       </div>
     </div>
   </div>

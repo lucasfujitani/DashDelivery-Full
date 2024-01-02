@@ -26,4 +26,9 @@ export class PedidoService {
       return this.http.post<Pedido>(this.url, obj);
     }
 
+    atualizarStatusPedido(pedido: Pedido): Observable<Pedido> {
+      const urlAtualizacao = `${this.url}${pedido.id}`;
+      return this.http.put<Pedido>(urlAtualizacao, pedido);
+    }
+
 }

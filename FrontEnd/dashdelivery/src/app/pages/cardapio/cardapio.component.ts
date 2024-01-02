@@ -10,6 +10,7 @@ import { Pedido } from '../../models/Pedido';
   styleUrls: ['./cardapio.component.css']
 })
 export class CardapioComponent implements OnInit {
+  formaDePagamento: string = '';
   nomeCliente: string = '';
   enderecoCliente: string = '';
   produtos: Produto[] = [];
@@ -63,9 +64,15 @@ export class CardapioComponent implements OnInit {
     let whatsappUrl = `https://wa.me/554391674288?text=${encodeURIComponent(mensagem)}`;
     window.open(whatsappUrl, '_blank');
   }
-
   enviarPedido() {
+
+    if (!this.nomeCliente || !this.enderecoCliente || !this.formaDePagamento) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
     const obj: Pedido = {
+      id: 0,
       nomeCliente: this.nomeCliente,
       enderecoCliente: this.enderecoCliente,
       itens: JSON.stringify(this.carrinho.map(produto => ({
@@ -73,7 +80,9 @@ export class CardapioComponent implements OnInit {
         quantidade: produto.quantidade,
         preco: produto.preco
       }))),
-      total: this.calcularTotal()
+      total: this.calcularTotal(),
+      status: 'Aguardando',
+      formaDePagamento: this.formaDePagamento
     };
 
     this.pedidoService.cadastrar(obj).subscribe(
@@ -94,4 +103,18 @@ export class CardapioComponent implements OnInit {
     this.carrinho = [];
     this.fecharModal();
   }
+
+  incrementarQuantidade(produto: Produto) {
+    if (!produto.quantidade) {
+      produto.quantidade = 0;
+    }
+    produto.quantidade++;
+  }
+
+  decrementarQuantidade(produto: Produto) {
+    if (produto.quantidade && produto.quantidade > 0) {
+      produto.quantidade--;
+    }
+  }
+
 }

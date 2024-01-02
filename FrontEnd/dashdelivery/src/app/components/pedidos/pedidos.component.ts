@@ -8,11 +8,15 @@ import { PedidoService } from '../../services/pedido.service';
   styleUrls: ['./pedidos.component.css']
 })
 export class PedidosComponent {
+  formaDePagamento: string = '';
     pedido: Pedido = {
+    id: 0,
     nomeCliente: '',
     enderecoCliente: '',
     itens: '',
-    total: 0
+    total: 0,
+    status: 'Aguardando',
+    formaDePagamento: this.formaDePagamento
 };
 
   btnCadastro: boolean = true;
@@ -46,7 +50,22 @@ export class PedidosComponent {
 
       });
   }
+  atualizarStatusPedido(idPedido: number, event: Event) {
+    const selectElement = event.target as HTMLSelectElement | null;
 
+    if (selectElement) {
+      const novoStatus = selectElement.value;
+      const pedido = this.pedidos.find(p => p.id === idPedido);
+      if (pedido) {
+        pedido.status = novoStatus;
+
+        this.service.editar(pedido).subscribe(
+          () => console.log('Status do pedido atualizado com sucesso'),
+          error => console.error('Erro ao atualizar o status do pedido', error)
+        );
+      }
+    }
+  }
 
   cancelar(): void {
 

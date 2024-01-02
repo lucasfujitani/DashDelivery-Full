@@ -29,7 +29,7 @@
       <th>{{i+1}}</th>
       <th>{{f.nome}}</th>
       <th>{{f.cargo}}</th>
-      <th>{{f.salario}}</th>
+      <th>{{f.salario | currency:'BRL':'symbol':'1.2-2' }}</th>
       <th><button class="btn btn-success" (click)="selecionarFuncionario(i)">Selecionar</button></th>
 
     </tr>

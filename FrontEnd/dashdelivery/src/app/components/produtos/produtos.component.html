@@ -1,44 +1,44 @@
 
-<div class="main-container">
-<app-sidebar></app-sidebar>
-<div class="main">
-<form class="form-inline">
-  <input type="text" placeholder="Produto" name="produto" [(ngModel)]="produto.produto" class="form-control">
-  <input type="text" placeholder="Descrição" name="descricao" [(ngModel)]="produto.descricao" class="form-control">
-  <input type="number" placeholder="Preço" name="preco" [(ngModel)]="produto.preco" class="form-control">
-  <input type="text" placeholder="imagemUrl" name="imagemUrl" [(ngModel)]="produto.imagemUrl" class="form-control">
+  <div class="main-container">
+  <app-sidebar></app-sidebar>
+  <div class="main">
+  <form class="form-inline">
+    <input type="text" placeholder="Produto" name="produto" [(ngModel)]="produto.produto" class="form-control">
+    <input type="text" placeholder="Descrição" name="descricao" [(ngModel)]="produto.descricao" class="form-control">
+    <input type="number" placeholder="Preço" name="preco" [(ngModel)]="produto.preco" class="form-control">
+    <input type="text" placeholder="imagemUrl" name="imagemUrl" [(ngModel)]="produto.imagemUrl" class="form-control">
 
-  <input type="button" value="Cadastrar" *ngIf="btnCadastro" class="btn btn-primary btn-small" (click)="cadastrar()">
-  <input type="button" value="Alterar" *ngIf="!btnCadastro" class="btn btn-warning btn-small" (click)="editar()">
-  <input type="button" value="Remover" *ngIf="!btnCadastro" class="btn btn-danger btn-small" (click)="remover()">
-  <input type="button" value="Cancelar" *ngIf="!btnCadastro" class="btn btn-secondary btn-small" (click)="cancelar()">
-</form>
+    <input type="button" value="Cadastrar" *ngIf="btnCadastro" class="btn btn-primary btn-small" (click)="cadastrar()">
+    <input type="button" value="Alterar" *ngIf="!btnCadastro" class="btn btn-warning btn-small" (click)="editar()">
+    <input type="button" value="Remover" *ngIf="!btnCadastro" class="btn btn-danger btn-small" (click)="remover()">
+    <input type="button" value="Cancelar" *ngIf="!btnCadastro" class="btn btn-secondary btn-small" (click)="cancelar()">
+  </form>
 
-<table class="spaced-table table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Produto</th>
-      <th>Descrição</th>
-      <th>Preço</th>
-      <th>Imagem</th>
-      <th>Alterar</th>
+  <table class="spaced-table table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Produto</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Imagem</th>
+        <th>Alterar</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of produtos; index as i">
+      <th>{{i+1}}</th>
+      <th>{{p.produto}}</th>
+      <th class="descricao-column">{{p.descricao}}</th>
+      <th>{{ p.preco | currency:'BRL':'symbol':'1.2-2' }}</th>
+      <th class="descricao-column">{{p.imagemUrl}}</th>
+      <th><button class="btn btn-success" (click)="selecionarProduto(i)">Selecionar</button></th>
+
     </tr>
-  </thead>
-
-  <tbody>
-    <tr *ngFor="let p of produtos; index as i">
-    <th>{{i+1}}</th>
-    <th>{{p.produto}}</th>
-    <th class="descricao-column">{{p.descricao}}</th>
-    <th>{{p.preco}}</th>
-    <th class="descricao-column">{{p.imagemUrl}}</th>
-    <th><button class="btn btn-success" (click)="selecionarProduto(i)">Selecionar</button></th>
-
-  </tr>
-  </tbody>
-</table>
-</div>
-</div>
+    </tbody>
+  </table>
+  </div>
+  </div>
 
 

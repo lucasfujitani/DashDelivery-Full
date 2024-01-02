@@ -6,7 +6,6 @@ import { ProdutosComponent } from './components/produtos/produtos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { FuncionariosComponent } from './components/funcionarios/funcionarios.component';
 import { EntregadorComponent } from './components/entregador/entregador.component';
-import { AdminInterceptor } from './admin.interceptor';
 import { AuthComponent } from './pages/auth/auth.component';
 import { AuthGuard } from './services/auth-guard.service';
 
