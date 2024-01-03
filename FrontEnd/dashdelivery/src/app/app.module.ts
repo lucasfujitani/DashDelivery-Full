@@ -18,6 +18,8 @@ import { EntregadorComponent } from './components/entregador/entregador.componen
 import { AuthComponent } from './pages/auth/auth.component';
 import { AdminInterceptor } from './admin.interceptor';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +31,8 @@ import { AdminInterceptor } from './admin.interceptor';
     FuncionariosComponent,
     SidebarComponent,
     EntregadorComponent,
-    AuthComponent,
+    AuthComponent
+
 
 
   ],

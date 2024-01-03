@@ -85,3 +85,7 @@ h3{
   color: white;
   margin-top: 5px;
 }
+h1 {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #101112;
+}

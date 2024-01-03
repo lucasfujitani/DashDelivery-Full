@@ -3,6 +3,7 @@ import { ProdutoService } from '../../services/produto.service';
 import { Produto } from '../../models/Produtos';
 import { PedidoService } from '../../services/pedido.service';
 import { Pedido } from '../../models/Pedido';
+import { Categoria } from '../../models/Categoria';
 
 @Component({
   selector: 'app-cardapio',
@@ -15,6 +16,9 @@ export class CardapioComponent implements OnInit {
   enderecoCliente: string = '';
   produtos: Produto[] = [];
   carrinho: Produto[] = [];
+  categorias: Record<string, Produto[]> = {};
+
+
   exibirModal: boolean = false;
 
   constructor(private produtoService: ProdutoService, private pedidoService: PedidoService) {}
@@ -26,6 +30,7 @@ export class CardapioComponent implements OnInit {
   selecionar(): void {
     this.produtoService.selecionar()
       .subscribe(retorno => this.produtos = retorno);
+      this.agruparProdutosPorCategoria();
   }
 
   adicionarAoPedido(produto: Produto) {
@@ -117,5 +122,14 @@ export class CardapioComponent implements OnInit {
       produto.quantidade--;
     }
   }
-
+  agruparProdutosPorCategoria() {
+    this.categorias = this.produtos.reduce((acc, produto) => {
+      const categoria = produto.categoria || 'Outros';
+      if (!acc[categoria]) {
+        acc[categoria] = [];
+      }
+      acc[categoria].push(produto);
+      return acc;
+    }, {} as Record<string, Produto[]>);
+  }
 }
