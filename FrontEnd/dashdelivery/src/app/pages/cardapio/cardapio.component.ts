@@ -6,6 +6,7 @@ import { Pedido } from '../../models/Pedido';
 import { Categoria } from '../../models/Categoria';
 import { VerificationService } from '../../services/verification.service';
 import { Verificacao } from '../../models/Verificacao';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cardapio',
@@ -25,11 +26,20 @@ export class CardapioComponent implements OnInit {
   verificacao: Verificacao = { email: '', codigo: '' };
   codigoValidado: boolean = false;
   exibirModal: boolean = false;
+  ruaCliente: string = "";
+  numeroResidencia: string = "";
+  bairroCliente: string = "";
+  cidadeCliente: string = "";
+  ufCliente: string = "";
+  cepCliente: string = "";
+
+
 
   constructor(
     private produtoService: ProdutoService,
     private pedidoService: PedidoService,
-    private verificationService: VerificationService
+    private verificationService: VerificationService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -67,7 +77,7 @@ export class CardapioComponent implements OnInit {
   }
 
   enviarPedidoWhatsApp() {
-    let mensagem = `Pedido de: ${this.nomeCliente}\nEndereço: ${this.enderecoCliente}\n\nProdutos:\n`;
+    let mensagem = `Pedido de: ${this.nomeCliente}\nEndereço: ${this.enderecoCompleto}\n\nProdutos:\n`;
     let total = 0;
 
     this.carrinho.forEach(produto => {
@@ -83,7 +93,7 @@ export class CardapioComponent implements OnInit {
   }
   enviarPedido() {
 
-    if (!this.nomeCliente || !this.enderecoCliente || !this.formaDePagamento) {
+    if (!this.nomeCliente || !this.formaDePagamento) {
       alert('Por favor, preencha todos os campos.');
       return;
     }
@@ -91,7 +101,7 @@ export class CardapioComponent implements OnInit {
     const obj: Pedido = {
       id: 0,
       nomeCliente: this.nomeCliente,
-      enderecoCliente: this.enderecoCliente,
+      enderecoCliente: this.enderecoCompleto,
       itens: JSON.stringify(this.carrinho.map(produto => ({
         nomeProduto: produto.produto,
         quantidade: produto.quantidade,
@@ -202,4 +212,38 @@ export class CardapioComponent implements OnInit {
       }
     });
   }
+
+  get enderecoCompleto(): string {
+    return `${this.ruaCliente || ''}, ${this.numeroResidencia || ''}, ${this.bairroCliente || ''}, ${this.cidadeCliente || ''} - ${this.ufCliente || ''}`.trim();
+  }
+
+  consultarCep(cep: string) {
+    cep = cep.replace(/\D/g, '');
+    if (cep != "" && /^[0-9]{8}$/.test(cep)) {
+      this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe(dados => {
+        if (!dados.erro) {
+          this.ruaCliente = dados.logradouro;
+          this.bairroCliente = dados.bairro;
+          this.cidadeCliente = dados.localidade;
+          this.ufCliente = dados.uf;
+        } else {
+          this.limparCamposEndereco();
+          alert("CEP não encontrado.");
+        }
+      });
+    } else {
+      this.limparCamposEndereco();
+      alert("Formato de CEP inválido.");
+    }
+  }
+
+  private limparCamposEndereco() {
+    this.ruaCliente = "";
+    this.bairroCliente = "";
+    this.cidadeCliente = "";
+    this.ufCliente = "";
+  }
 }
+
+
+

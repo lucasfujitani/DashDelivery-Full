@@ -32,14 +32,35 @@
         <label for="nomeCliente">Nome:</label>
         <input type="text" id="nomeCliente" class="form-control" [(ngModel)]="nomeCliente">
       </div>
+
       <div class="form-group">
-        <label for="enderecoCliente">Endereço:</label>
-        <input type="text" id="enderecoCliente" class="form-control" [(ngModel)]="enderecoCliente">
+        <label for="cepCliente">CEP (opcional):</label>
+        <input type="text" id="cepCliente" class="form-control" [(ngModel)]="cepCliente" (change)="consultarCep(cepCliente)">
+      </div>
+      <div class="form-group">
+        <label for="ruaCliente">Rua:</label>
+        <input type="text" id="ruaCliente" class="form-control" [(ngModel)]="ruaCliente">
+      </div>
+      <div class="form-group">
+        <label for="numeroResidencia">Número ou Apartamento:</label>
+        <input type="text" id="numeroResidencia" class="form-control"  [(ngModel)]="numeroResidencia" >
+      </div>
+      <div class="form-group">
+        <label for="bairroCliente">Bairro:</label>
+        <input type="text" id="bairroCliente" class="form-control" [(ngModel)]="bairroCliente">
+      </div>
+      <div class="form-group">
+        <label for="cidadeCliente">Cidade:</label>
+        <input type="text" id="cidadeCliente" class="form-control" [(ngModel)]="cidadeCliente">
+      </div>
+      <div class="form-group">
+        <label for="ufCliente">Estado:</label>
+        <input type="text" id="ufCliente" class="form-control" [(ngModel)]="ufCliente">
       </div>
 
       <!-- Campos de E-mail e Código de Verificação -->
       <div class="form-group d-flex align-items-center">
-        <label for="emailCliente" class="mr-2">E-mail:</label>
+        <label for="emailClie nte" class="mr-2">E-mail:</label>
         <input type="email" id="emailCliente" class="form-control mr-2" [(ngModel)]="verificacao.email">
         <button (click)="enviarCodigoDeVerificacao()" class="btn btn-primary">Enviar Código</button>
       </div>
@@ -69,8 +90,8 @@
       <p>Total: {{ calcularTotal() | currency }}</p>
 
       <!-- Botões de Envio do Pedido -->
-      <button (click)="enviarPedido()" [disabled]="!nomeCliente || !enderecoCliente || !formaDePagamento || !codigoValidado" class="btn btn-primary">Enviar Pedido</button>
-      <button class="zap" (click)="enviarPedidoWhatsApp()" [disabled]="!nomeCliente || !enderecoCliente || !formaDePagamento || !codigoValidado" class="btn btn-info">Enviar Pedido no Whatsapp</button>
+      <button (click)="enviarPedido()" [disabled]="!nomeCliente || !formaDePagamento || !codigoValidado" class="btn btn-primary">Enviar Pedido</button>
+      <button class="zap" (click)="enviarPedidoWhatsApp()" [disabled]="!nomeCliente || !formaDePagamento || !codigoValidado" class="btn btn-info">Enviar Pedido no Whatsapp</button>
     </div>
   </div>
 
