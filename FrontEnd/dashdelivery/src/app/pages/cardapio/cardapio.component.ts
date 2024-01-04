@@ -4,6 +4,8 @@ import { Produto } from '../../models/Produtos';
 import { PedidoService } from '../../services/pedido.service';
 import { Pedido } from '../../models/Pedido';
 import { Categoria } from '../../models/Categoria';
+import { VerificationService } from '../../services/verification.service';
+import { Verificacao } from '../../models/Verificacao';
 
 @Component({
   selector: 'app-cardapio',
@@ -20,21 +22,26 @@ export class CardapioComponent implements OnInit {
   termoDeBusca: string = '';
   categoriaDeBusca: string = '';
   categoriasFiltradas: Record<string, Produto[]> = {};
-
-
+  verificacao: Verificacao = { email: '', codigo: '' };
+  codigoValidado: boolean = false;
   exibirModal: boolean = false;
 
-  constructor(private produtoService: ProdutoService, private pedidoService: PedidoService) {}
+  constructor(
+    private produtoService: ProdutoService,
+    private pedidoService: PedidoService,
+    private verificationService: VerificationService
+  ) {}
 
   ngOnInit() {
     this.selecionar();
   }
 
   selecionar(): void {
-    this.produtoService.selecionar()
-      .subscribe(retorno => this.produtos = retorno);
+    this.produtoService.selecionar().subscribe(retorno => {
+      this.produtos = retorno;
       this.agruparProdutosPorCategoria();
       this.categoriasFiltradas = this.categorias;
+    });
   }
 
   adicionarAoPedido(produto: Produto) {
@@ -157,5 +164,42 @@ export class CardapioComponent implements OnInit {
 
       return acc;
     }, {} as Record<string, Produto[]>);
+  }
+
+
+  enviarCodigoDeVerificacao(): void {
+    if (!this.verificacao.email) {
+      alert('Por favor, insira um e-mail válido.');
+      return;
+    }
+
+    this.verificationService.sendCode(this.verificacao.email).subscribe({
+      next: (response) => {
+        alert('Código de verificação enviado para: ' + this.verificacao.email);
+      },
+      error: (error) => {
+        console.error('Erro ao enviar código de verificação', error);
+        alert('Erro ao enviar código de verificação. Verifique o console para mais detalhes.');
+      }
+    });
+  }
+
+  validarCodigoDeVerificacao(): void {
+    if (!this.verificacao.email || !this.verificacao.codigo) {
+      alert('Por favor, insira um e-mail e um código de verificação.');
+      return;
+    }
+
+    this.verificationService.validateCode(this.verificacao.email, this.verificacao.codigo).subscribe({
+      next: (response) => {
+        this.codigoValidado = true;
+        alert('Código validado com sucesso!');
+      },
+      error: (error) => {
+        console.error('Erro ao validar código de verificação', error);
+        this.codigoValidado = false;
+        alert('Código de verificação inválido.');
+      }
+    });
   }
 }

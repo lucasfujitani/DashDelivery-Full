@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 @RestController
 @RequestMapping("verification")
+@CrossOrigin(origins = "*")
 public class VerificationController {
 
     @Autowired

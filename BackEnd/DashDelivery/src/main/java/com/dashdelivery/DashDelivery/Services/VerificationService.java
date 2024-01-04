@@ -46,7 +46,7 @@ public class VerificationService {
         List<Verificacao> verificacoes = verificacaoRepositorio.findByEmail(email);
 
         if (verificacoes.isEmpty()) {
-            
+
             return false;
         }
 
