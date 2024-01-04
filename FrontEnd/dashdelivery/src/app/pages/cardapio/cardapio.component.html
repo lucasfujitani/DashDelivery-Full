@@ -1,6 +1,29 @@
 <div class="main-content">
-
 <h1>cardapio</h1>
+
+<div class="mb-3">
+  <div class="row">
+    <!-- Campo de Texto para Pesquisa -->
+    <div class="col">
+      <input type="text" [(ngModel)]="termoDeBusca" placeholder="Pesquisar produto" class="form-control">
+    </div>
+
+    <!-- Seletor de Categoria -->
+    <div class="col">
+      <select [(ngModel)]="categoriaDeBusca" class="form-control">
+        <option value="">Todas as Categorias</option>
+        <option *ngFor="let cat of categorias | keyvalue" [value]="cat.key">
+          {{ cat.key }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Botão de Pesquisa -->
+    <div class="col-auto">
+      <button (click)="filtrarProdutos()" class="btn btn-primary">Pesquisar</button>
+    </div>
+  </div>
+</div>
 
 
 
@@ -17,6 +40,7 @@
       <label for="enderecoCliente">Endereço:</label>
       <input type="text" id="enderecoCliente" class="form-control" [(ngModel)]="enderecoCliente">
     </div>
+
     <div class="form-group">
       <label for="formaDePagamento">Forma de Pagamento:</label>
       <select id="formaDePagamento" class="form-control" [(ngModel)]="formaDePagamento">
@@ -40,8 +64,7 @@
 
 
 
-
-  <div *ngFor="let categoria of categorias | keyvalue">
+  <div *ngFor="let categoria of categoriasFiltradas | keyvalue">
     <h1>{{ categoria.key }}</h1>
     <div class="row">
       <div class="col-md-3 mb-4" *ngFor="let p of categoria.value">

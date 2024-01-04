@@ -17,6 +17,9 @@ export class CardapioComponent implements OnInit {
   produtos: Produto[] = [];
   carrinho: Produto[] = [];
   categorias: Record<string, Produto[]> = {};
+  termoDeBusca: string = '';
+  categoriaDeBusca: string = '';
+  categoriasFiltradas: Record<string, Produto[]> = {};
 
 
   exibirModal: boolean = false;
@@ -31,6 +34,7 @@ export class CardapioComponent implements OnInit {
     this.produtoService.selecionar()
       .subscribe(retorno => this.produtos = retorno);
       this.agruparProdutosPorCategoria();
+      this.categoriasFiltradas = this.categorias;
   }
 
   adicionarAoPedido(produto: Produto) {
@@ -122,6 +126,8 @@ export class CardapioComponent implements OnInit {
       produto.quantidade--;
     }
   }
+
+
   agruparProdutosPorCategoria() {
     this.categorias = this.produtos.reduce((acc, produto) => {
       const categoria = produto.categoria || 'Outros';
@@ -129,6 +135,26 @@ export class CardapioComponent implements OnInit {
         acc[categoria] = [];
       }
       acc[categoria].push(produto);
+      return acc;
+    }, {} as Record<string, Produto[]>);
+  }
+
+  filtrarProdutos() {
+    if (!this.termoDeBusca && !this.categoriaDeBusca) {
+      this.categoriasFiltradas = this.categorias; // Se não há termo de busca, mostre todos
+      return;
+    }
+
+    this.categoriasFiltradas = Object.keys(this.categorias).reduce((acc, categoria) => {
+      const produtosFiltrados = this.categorias[categoria].filter(produto => {
+        return produto.produto.toLowerCase().includes(this.termoDeBusca.toLowerCase()) &&
+               (this.categoriaDeBusca === '' || produto.categoria === this.categoriaDeBusca);
+      });
+
+      if (produtosFiltrados.length > 0) {
+        acc[categoria] = produtosFiltrados;
+      }
+
       return acc;
     }, {} as Record<string, Produto[]>);
   }
