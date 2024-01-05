@@ -1,20 +1,22 @@
-body{
+body {
   background-color: darkgrey;
 }
-h1{
+
+h1 {
   color: white;
   text-align: center;
   text-transform: uppercase;
-
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #101112;
 }
-a{margin-top: 10px;}
 
-h3{
+h3 {
   color: white;
 }
 
+/* Modificações para .modal para evitar conflitos */
 .modal {
-  display: flex;
+  display: flex; /* Mantenha display flex se deseja centralizar o conteúdo. Remova a segunda declaração de 'display: block;' */
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -28,10 +30,11 @@ h3{
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: auto; /* Mudança para centralizar verticalmente */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 80%; /* Considere diminuir em telas menores */
+  max-width: 600px; /* Limita o tamanho máximo */
 }
 
 .close {
@@ -46,9 +49,6 @@ h3{
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-.modal {
-  display: block;
 }
 
 .fixed-footer {
@@ -67,8 +67,9 @@ h3{
   justify-content: space-around;
   align-items: center;
 }
+
 .main-content {
-  margin-bottom:100px;
+  margin-bottom: 100px;
 }
 
 .row {
@@ -80,12 +81,33 @@ h3{
 .col-md-3 {
   margin: 10px;
 }
-.zap{
+
+.zap {
   background-color: green;
   color: white;
   margin-top: 5px;
 }
-h1 {
-  -webkit-text-stroke-width: 2px;
-  -webkit-text-stroke-color: #101112;
+
+a {
+  margin-top: 10px;
+
 }
+
+
+.input-margin {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.produto-item {
+  margin-top: 1px;
+  display: flex;
+  align-items: left;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+
+.produto-item span {
+  flex-grow: 1;
+}
+
+
