@@ -10,9 +10,7 @@
       <div class="col">
         <select [(ngModel)]="categoriaDeBusca" class="form-control">
           <option value="">Todas as Categorias</option>
-          <option *ngFor="let cat of categorias | keyvalue" [value]="cat.key">
-            {{ cat.key }}
-          </option>
+          <option *ngFor="let cat of categorias | keyvalue" [value]="cat.key">{{ cat.key }}</option>
         </select>
       </div>
       <div class="col-auto">
@@ -32,59 +30,62 @@
         <label for="nomeCliente">Nome:</label>
         <input type="text" id="nomeCliente" class="form-control form-control-sm" [(ngModel)]="nomeCliente">
       </div>
-<!-- Linha 1: CEP e Rua -->
-<div class="row">
-  <div class="col-md-6 form-group">
-      <label for="cepCliente">CEP (opcional):</label>
-      <input type="text" id="cepCliente" class="form-control form-control-sm" [(ngModel)]="cepCliente" (change)="consultarCep(cepCliente)">
-  </div>
-  <div class="col-md-6 form-group">
-      <label for="ruaCliente">Rua:</label>
-      <input type="text" id="ruaCliente" class="form-control form-control-sm" [(ngModel)]="ruaCliente">
-  </div>
-</div>
 
-<!-- Linha 2: Número/Apartamento e Bairro -->
-<div class="row">
-  <div class="col-md-6 form-group">
-      <label for="numeroResidencia">Número ou Apartamento:</label>
-      <input type="text" id="numeroResidencia" class="form-control form-control-sm" [(ngModel)]="numeroResidencia">
-  </div>
-  <div class="col-md-6 form-group">
-      <label for="bairroCliente">Bairro:</label>
-      <input type="text" id="bairroCliente" class="form-control form-control-sm" [(ngModel)]="bairroCliente">
-  </div>
-</div>
+      <!-- Endereço do Cliente -->
+      <!-- Linha 1: CEP e Rua -->
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="cepCliente">CEP (opcional):</label>
+          <input type="text" id="cepCliente" class="form-control form-control-sm" [(ngModel)]="cepCliente" (change)="consultarCep(cepCliente)">
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="ruaCliente">Rua:</label>
+          <input type="text" id="ruaCliente" class="form-control form-control-sm" [(ngModel)]="ruaCliente">
+        </div>
+      </div>
 
-<!-- Linha 3: Cidade e Estado -->
-<div class="row">
-  <div class="col-md-6 form-group">
-      <label for="cidadeCliente">Cidade:</label>
-      <input type="text" id="cidadeCliente" class="form-control form-control-sm" [(ngModel)]="cidadeCliente">
-  </div>
-  <div class="col-md-6 form-group">
-      <label for="ufCliente">Estado:</label>
-      <input type="text" id="ufCliente" class="form-control form-control-sm" [(ngModel)]="ufCliente">
-  </div>
-</div>
+      <!-- Linha 2: Número/Apartamento e Bairro -->
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="numeroResidencia">Número ou Apartamento:</label>
+          <input type="text" id="numeroResidencia" class="form-control form-control-sm" [(ngModel)]="numeroResidencia">
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="bairroCliente">Bairro:</label>
+          <input type="text" id="bairroCliente" class="form-control form-control-sm" [(ngModel)]="bairroCliente">
+        </div>
+      </div>
 
+      <!-- Linha 3: Cidade e Estado -->
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="cidadeCliente">Cidade:</label>
+          <input type="text" id="cidadeCliente" class="form-control form-control-sm" [(ngModel)]="cidadeCliente">
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="ufCliente">Estado:</label>
+          <input type="text" id="ufCliente" class="form-control form-control-sm" [(ngModel)]="ufCliente">
+        </div>
+      </div>
+
+      <!-- Verificação de Email e Código -->
       <div class="form-group row mt-2">
         <div class="col-md-6 d-flex align-items-center">
-            <label for="emailCliente" class="form-label form-label-sm mr-2">Email:</label>
-            <div class="flex-grow-1 mr-2">
-                <input type="email" id="emailCliente" class="form-control form-control-sm" [(ngModel)]="verificacao.email">
-            </div>
-            <button (click)="enviarCodigoDeVerificacao()" class="btn btn-primary btn-sm">Enviar</button>
+          <label for="emailCliente" class="form-label form-label-sm mr-2">Email:</label>
+          <div class="flex-grow-1 mr-2">
+            <input type="email" id="emailCliente" class="form-control form-control-sm" [(ngModel)]="verificacao.email">
+          </div>
+          <button (click)="enviarCodigoDeVerificacao()" class="btn btn-primary btn-sm">Enviar</button>
         </div>
-
         <div class="col-md-6 d-flex align-items-center">
-            <label for="codigoVerificacao" class="form-label form-label-sm mr-2">Código:</label>
-            <div class="flex-grow-1 mr-2">
-                <input type="text" id="codigoVerificacao" class="form-control form-control-sm " [(ngModel)]="verificacao.codigo">
-            </div>
-            <button (click)="validarCodigoDeVerificacao()" [disabled]="!verificacao.email || !verificacao.codigo" class="btn btn-success btn-sm">Validar</button>
+          <label for="codigoVerificacao" class="form-label form-label-sm mr-2">Código:</label>
+          <div class="flex-grow-1 mr-2">
+            <input type="text" id="codigoVerificacao" class="form-control form-control-sm " [(ngModel)]="verificacao.codigo">
+          </div>
+          <button (click)="validarCodigoDeVerificacao()" [disabled]="!verificacao.email || !verificacao.codigo" class="btn btn-success btn-sm">Validar</button>
         </div>
-    </div>
+      </div>
+
       <!-- Forma de Pagamento -->
       <div class="form-group">
         <label for="formaDePagamento">Forma de Pagamento:</label>
@@ -96,12 +97,12 @@
       </div>
 
       <!-- Listagem de Produtos no Carrinho -->
-  <ul>
-    <li *ngFor="let produto of carrinho; let i = index" class="produto-item">
-        <span>{{ produto.produto }} - Preço por Unidade: {{ produto.preco | currency }} - Quantidade: {{ produto.quantidade }} - Subtotal: {{ produto.preco * produto.quantidade | currency }}</span>
-        <button (click)="removerItem(i)" class="btn btn-danger btn-sm">Remover</button>
-    </li>
-</ul>
+      <ul>
+        <li *ngFor="let produto of carrinho; let i = index" class="produto-item">
+          <span>{{ produto.produto }} - Preço por Unidade: {{ produto.preco | currency }} - Quantidade: {{ produto.quantidade }} - Subtotal: {{ produto.preco * produto.quantidade | currency }}</span>
+          <button (click)="removerItem(i)" class="btn btn-danger btn-sm">Remover</button>
+        </li>
+      </ul>
       <p>Total: {{ calcularTotal() | currency }}</p>
 
       <!-- Botões de Envio do Pedido -->

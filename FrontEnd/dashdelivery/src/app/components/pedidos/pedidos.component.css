@@ -3,14 +3,14 @@
 }
 
 .app-sidebar {
-  width: 200px; /* Ajuste conforme necessário */
-  height: 100vh; /* Altura completa da tela */
+  width: 200px;
+  height: 100vh;
 }
 
 .content {
-  flex-grow: 1; /* Ocupa o espaço restante */
-  display: flex; /* Usa Flexbox */
-  flex-direction: column; /* Organiza os filhos em coluna */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 
 }
 

@@ -50,7 +50,7 @@ public class VerificationService {
             return false;
         }
 
-        // Filtrar as verificações para excluir quaisquer entradas com timestamp nulo
+
         Verificacao verificacaoMaisRecente = verificacoes.stream()
                 .filter(v -> v.getTimestamp() != null)
                 .max(Comparator.comparing(Verificacao::getTimestamp))

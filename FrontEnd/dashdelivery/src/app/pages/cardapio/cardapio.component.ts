@@ -14,26 +14,30 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./cardapio.component.css']
 })
 export class CardapioComponent implements OnInit {
+
+  // Propriedades do Pedido
   formaDePagamento: string = '';
   nomeCliente: string = '';
   enderecoCliente: string = '';
-  produtos: Produto[] = [];
   carrinho: Produto[] = [];
+  verificacao: Verificacao = { email: '', codigo: '' };
+  codigoValidado: boolean = false;
+  exibirModal: boolean = false;
+
+  // Propriedades de Produtos e Categorias
+  produtos: Produto[] = [];
   categorias: Record<string, Produto[]> = {};
   termoDeBusca: string = '';
   categoriaDeBusca: string = '';
   categoriasFiltradas: Record<string, Produto[]> = {};
-  verificacao: Verificacao = { email: '', codigo: '' };
-  codigoValidado: boolean = false;
-  exibirModal: boolean = false;
+
+  // Propriedades de Endereço do Cliente
   ruaCliente: string = "";
   numeroResidencia: string = "";
   bairroCliente: string = "";
   cidadeCliente: string = "";
   ufCliente: string = "";
   cepCliente: string = "";
-
-
 
   constructor(
     private produtoService: ProdutoService,
@@ -46,6 +50,7 @@ export class CardapioComponent implements OnInit {
     this.selecionar();
   }
 
+   // Seleciona produtos e agrupa por categoria
   selecionar(): void {
     this.produtoService.selecionar().subscribe(retorno => {
       this.produtos = retorno;
@@ -54,51 +59,56 @@ export class CardapioComponent implements OnInit {
     });
   }
 
+  // Adiciona um produto ao carrinho
   adicionarAoPedido(produto: Produto) {
     this.carrinho.push({...produto, quantidade: produto.quantidade || 1});
     alert('Produto adicionado ao carrinho');
   }
 
+  // Remove um item do carrinho
   removerItem(index: number) {
     this.carrinho.splice(index, 1);
   }
 
+  // Calcula o total do carrinho
   calcularTotal(): number {
     const total = this.carrinho.reduce((total, produto) => total + (produto.preco * produto.quantidade), 0);
     return Number(total.toFixed(2));
   }
 
+  // Abre o modal de pedido
   abrirModal() {
     this.exibirModal = true;
   }
 
+  // Fecha o modal de pedido
   fecharModal() {
     this.exibirModal = false;
   }
 
+  // Envia pedido pelo WhatsApp
   enviarPedidoWhatsApp() {
     let mensagem = `Pedido de: ${this.nomeCliente}\nEndereço: ${this.enderecoCompleto}\n\nProdutos:\n`;
-    let total = 0;
-
+    // Constrói a mensagem do pedido
     this.carrinho.forEach(produto => {
-      let subtotal = produto.preco * produto.quantidade;
-      total += subtotal;
-      mensagem += `${produto.produto}, Quantidade: ${produto.quantidade}, Subtotal: ${subtotal.toFixed(2)}\n`;
+
+      mensagem += `${produto.produto}, Quantidade: ${produto.quantidade}\n`;
     });
-
-    mensagem += `\nTotal da Compra: ${total.toFixed(2)}`;
-
+    mensagem += `\nTotal da Compra: ${this.calcularTotal().toFixed(2)}`;
     let whatsappUrl = `https://wa.me/554391674288?text=${encodeURIComponent(mensagem)}`;
     window.open(whatsappUrl, '_blank');
   }
-  enviarPedido() {
 
+  // Envia o pedido
+  enviarPedido() {
+    // Validação dos campos obrigatórios
     if (!this.nomeCliente || !this.formaDePagamento) {
       alert('Por favor, preencha todos os campos.');
       return;
     }
 
-    const obj: Pedido = {
+    // Monta objeto do pedido
+    const pedido: Pedido = {
       id: 0,
       nomeCliente: this.nomeCliente,
       enderecoCliente: this.enderecoCompleto,
@@ -112,7 +122,8 @@ export class CardapioComponent implements OnInit {
       formaDePagamento: this.formaDePagamento
     };
 
-    this.pedidoService.cadastrar(obj).subscribe(
+    // Faz a requisição para cadastrar o pedido
+    this.pedidoService.cadastrar(pedido).subscribe(
       response => {
         alert('Pedido cadastrado com sucesso');
         this.limparPedido();
@@ -124,6 +135,7 @@ export class CardapioComponent implements OnInit {
     );
   }
 
+  // Limpa os dados do pedido
   limparPedido() {
     this.nomeCliente = '';
     this.enderecoCliente = '';
@@ -131,6 +143,7 @@ export class CardapioComponent implements OnInit {
     this.fecharModal();
   }
 
+  // Incrementa a quantidade de um produto
   incrementarQuantidade(produto: Produto) {
     if (!produto.quantidade) {
       produto.quantidade = 0;
@@ -138,13 +151,14 @@ export class CardapioComponent implements OnInit {
     produto.quantidade++;
   }
 
+  // Decrementa a quantidade de um produto
   decrementarQuantidade(produto: Produto) {
     if (produto.quantidade && produto.quantidade > 0) {
       produto.quantidade--;
     }
   }
 
-
+  // Agrupa produtos por categoria
   agruparProdutosPorCategoria() {
     this.categorias = this.produtos.reduce((acc, produto) => {
       const categoria = produto.categoria || 'Outros';
@@ -156,17 +170,18 @@ export class CardapioComponent implements OnInit {
     }, {} as Record<string, Produto[]>);
   }
 
+  // Filtra produtos com base em termos de busca e categoria
   filtrarProdutos() {
     if (!this.termoDeBusca && !this.categoriaDeBusca) {
-      this.categoriasFiltradas = this.categorias; // Se não há termo de busca, mostre todos
+      this.categoriasFiltradas = this.categorias;
       return;
     }
 
     this.categoriasFiltradas = Object.keys(this.categorias).reduce((acc, categoria) => {
-      const produtosFiltrados = this.categorias[categoria].filter(produto => {
-        return produto.produto.toLowerCase().includes(this.termoDeBusca.toLowerCase()) &&
-               (this.categoriaDeBusca === '' || produto.categoria === this.categoriaDeBusca);
-      });
+      const produtosFiltrados = this.categorias[categoria].filter(produto =>
+        produto.produto.toLowerCase().includes(this.termoDeBusca.toLowerCase()) &&
+        (this.categoriaDeBusca === '' || produto.categoria === this.categoriaDeBusca)
+      );
 
       if (produtosFiltrados.length > 0) {
         acc[categoria] = produtosFiltrados;
@@ -176,7 +191,7 @@ export class CardapioComponent implements OnInit {
     }, {} as Record<string, Produto[]>);
   }
 
-
+  // Envia código de verificação
   enviarCodigoDeVerificacao(): void {
     if (!this.verificacao.email) {
       alert('Por favor, insira um e-mail válido.');
@@ -194,6 +209,7 @@ export class CardapioComponent implements OnInit {
     });
   }
 
+  // Valida o código de verificação
   validarCodigoDeVerificacao(): void {
     if (!this.verificacao.email || !this.verificacao.codigo) {
       alert('Por favor, insira um e-mail e um código de verificação.');
@@ -213,10 +229,12 @@ export class CardapioComponent implements OnInit {
     });
   }
 
+  // Retorna o endereço completo do cliente
   get enderecoCompleto(): string {
     return `${this.ruaCliente || ''}, ${this.numeroResidencia || ''}, ${this.bairroCliente || ''}, ${this.cidadeCliente || ''} - ${this.ufCliente || ''}`.trim();
   }
 
+  // Consulta endereço pelo CEP
   consultarCep(cep: string) {
     cep = cep.replace(/\D/g, '');
     if (cep != "" && /^[0-9]{8}$/.test(cep)) {
@@ -237,6 +255,7 @@ export class CardapioComponent implements OnInit {
     }
   }
 
+  // Limpa os campos de endereço
   private limparCamposEndereco() {
     this.ruaCliente = "";
     this.bairroCliente = "";
@@ -244,6 +263,4 @@ export class CardapioComponent implements OnInit {
     this.ufCliente = "";
   }
 }
-
-
 

@@ -14,7 +14,7 @@ export class ProdutosComponent {
   produto = new Produto();
   btnCadastro: boolean = true;
   produtos: Produto[] = [];
-  exibirModal = false; // Controle do modal
+  exibirModal = false;
   categorias: Categoria[] = [];
   categoria: Categoria = new Categoria();
   categoriaSelecionada: number | null = null;
